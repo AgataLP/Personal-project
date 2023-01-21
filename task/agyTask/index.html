@@ -1,0 +1,211 @@
+<!doctype html>
+
+<html lang="en">
+
+	<head>
+
+		<meta charset="utf-8">
+
+		<title>Apis Table</title>
+	 
+		 
+
+	</head>
+
+	<body>
+	 
+		<table style="border: 5px solid rgb(207, 0, 0); width: 90%">
+			
+			<thead>
+				<tr>
+					<th style="width: 44%">API Name</th>
+					<th style="width: 44%">API Description</th>
+					<th style="width: 44%"></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<tr>
+					<td>Timezone Finder From Api</td>
+					<td>Find Timezone information for any point on land Insert Langtitude And Latitude</td>
+					<td>
+						<label for="selLat1_VAr">Latitude:</label>
+						<input type="text" id="selLat1_VAr">
+						<br>
+						<label for="selLong1_VAr">Longitude:</label>
+						<input type="text" id="selLong1_VAr">
+				
+						<button id="btnRun1_VAr">Run</button>
+					</td>
+				</tr>
+				<tr>
+					<td>Ocean Finder From Api</td>
+					<td>Find Ocean information for any point in water by Inserting Langtitude And Latitude </td>
+					<td>
+						<label for="selLat2_VAr">Latitude:</label>
+						<input type="text" id="selLat2_VAr">
+						<br>
+						<label for="selLong2_VAr">Longitude:</label>
+						<input type="text" id="selLong2_VAr">
+				
+						<button id="btnRun2_VAr">Run</button>
+					</td>
+				</tr>
+				<tr>
+					<td>City Finder From Api</td>
+					<td>Find information about city</td>
+					<td>
+						Select  a city:
+						<select id="selCity_VAr">
+							<option value="london">London</option>
+							<option value="norway">Norway</option>
+							<option value="newyork">New York</option>
+						</select>
+				
+						<button id="btnRun3_VAr">Run</button>
+					</td>
+				</tr>
+				<tr>
+					<th colspan="3">Results</th>
+				</tr>
+				<tr>
+					<td>Timezone </td>
+					<td>Ocean </td>
+					<td>City </td>
+				</tr>
+				<tr>
+					<td>
+						<div id="divResults1_VAr">
+			
+							<table>
+				
+								<tr>
+									<td align="right">
+										Country: 
+									</td>
+									<td id="txtCountry1_VAr">
+										
+									</td>
+				
+								</tr>
+				
+								<tr>
+									<td align="right">
+										Latitude: 
+									</td>
+									<td id="txtLatitude1_VAr">
+										
+									</td>
+				
+								</tr>
+				
+								<tr>
+									<td align="right">
+										Longitude: 
+									</td>
+									<td id="txtLongitude1_VAr">
+										
+									</td>
+				
+								</tr>
+				
+								<tr>
+									<td align="right">
+										Timezone: 
+									</td>
+									<td id="txtTimezone1_VAr">
+										
+									</td>
+				
+								</tr>
+				
+							</table>
+				
+						</div>
+					</td>
+					<td>
+						<div id="divResults2_VAr">
+			
+							<table>
+				
+								<tr>
+									<td align="right">
+										Ocean: 
+									</td>
+									<td id="txtOcean_VAr">
+										
+									</td>
+				
+								</tr>
+				
+								<tr>
+									<td align="right">
+										Id: 
+									</td>
+									<td id="txtNameId_VAr">
+										
+									</td>
+				
+								</tr>
+				
+							</table>
+				
+						</div>
+					</td>
+					<td>
+						<div id="divResults3_VAr">
+			
+							<table>
+				
+								<tr>
+									<td align="right">
+										City: 
+									</td>
+									<td id="txtCity_VAr">
+										
+									</td>
+				
+								</tr>
+				
+								<tr>
+									<td align="right">
+										Country: 
+									</td>
+									<td id="txtCountry2_VAr">
+										
+									</td>
+				
+								</tr>
+
+								<tr>
+									<td align="right">
+										Summary: 
+									</td>
+									<td id="txtSummary_VAr">
+										
+									</td>
+				
+								</tr>
+				
+							</table>
+				
+						</div>
+					</td>
+				</tr>
+			</tbody>
+
+		</table>
+
+
+		
+
+		<br><br>
+
+		
+
+		<script type="application/javascript" src="libs/js/jquery-3.5.1.min.js"></script>
+		<script type="application/javascript" src="libs/js/script.js"></script>
+
+	</body>
+
+</html>
