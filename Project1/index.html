@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+  />
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+  <meta name="author" content="Agata" />
+  <meta name="description" content="Project 1 - Gazetteer" />
+    <title>Project 1 - Gazetter</title>
+    <link rel="shortcut icon" href="asstes/images/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="assets/font-awsome/font-awesome.min.css">
+
+    <link rel="stylesheet" href="assets/bootstrap/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/leaflet/leaflet.css">
+    <link rel="stylesheet" href="assets/css/easy-button.css" />
+</head>
+<body>
+<div class="preloader-wrapper">
+      <div class="preloader">
+        <img src="assets/images/loader.gif" />
+      </div>
+    </div>
+
+    <div id="map"></div>
+    <div class="wrapper">
+        <form class="form">
+          <select class="custom-select custom-select-sm text-center text-uppercase border border-3 rounded fw-bold" id="selCountry"><option value="AF">Afghanistan</option><option value="AL">Albania</option><option value="DZ">Algeria</option><option value="AO">Angola</option><option value="AR">Argentina</option><option value="AM">Armenia</option><option value="AU">Australia</option><option value="AT">Austria</option><option value="AZ">Azerbaijan</option><option value="BS">Bahamas</option><option value="BD">Bangladesh</option><option value="BY">Belarus</option><option value="BE">Belgium</option><option value="BZ">Belize</option><option value="BJ">Benin</option><option value="BT">Bhutan</option><option value="BO">Bolivia</option><option value="BA">Bosnia and Herz.</option><option value="BW">Botswana</option><option value="BR">Brazil</option><option value="BN">Brunei</option><option value="BG">Bulgaria</option><option value="BF">Burkina Faso</option><option value="BI">Burundi</option><option value="KH">Cambodia</option><option value="CM">Cameroon</option><option value="CA">Canada</option><option value="CF">Central African Rep.</option><option value="TD">Chad</option><option value="CL">Chile</option><option value="CN">China</option><option value="CO">Colombia</option><option value="CG">Congo</option><option value="CR">Costa Rica</option><option value="HR">Croatia</option><option value="CU">Cuba</option><option value="CY">Cyprus</option><option value="CZ">Czech Rep.</option><option value="CI">Côte d'Ivoire</option><option value="CD">Dem. Rep. Congo</option><option value="KP">Dem. Rep. Korea</option><option value="DK">Denmark</option><option value="DJ">Djibouti</option><option value="DO">Dominican Rep.</option><option value="EC">Ecuador</option><option value="EG">Egypt</option><option value="SV">El Salvador</option><option value="GQ">Eq. Guinea</option><option value="ER">Eritrea</option><option value="EE">Estonia</option><option value="ET">Ethiopia</option><option value="FK">Falkland Is.</option><option value="FJ">Fiji</option><option value="FI">Finland</option><option value="FR">France</option><option value="GA">Gabon</option><option value="GM">Gambia</option><option value="GE">Georgia</option><option value="DE">Germany</option><option value="GH">Ghana</option><option value="GR">Greece</option><option value="GL">Greenland</option><option value="GT">Guatemala</option><option value="GN">Guinea</option><option value="GW">Guinea-Bissau</option><option value="GY">Guyana</option><option value="HT">Haiti</option><option value="HN">Honduras</option><option value="HU">Hungary</option><option value="IS">Iceland</option><option value="IN">India</option><option value="ID">Indonesia</option><option value="IR">Iran</option><option value="IQ">Iraq</option><option value="IE">Ireland</option><option value="IL">Israel</option><option value="IT">Italy</option><option value="JM">Jamaica</option><option value="JP">Japan</option><option value="JO">Jordan</option><option value="KZ">Kazakhstan</option><option value="KE">Kenya</option><option value="KR">Korea</option><option value="-99">Kosovo</option><option value="KW">Kuwait</option><option value="KG">Kyrgyzstan</option><option value="LA">Lao PDR</option><option value="LV">Latvia</option><option value="LB">Lebanon</option><option value="LS">Lesotho</option><option value="LR">Liberia</option><option value="LY">Libya</option><option value="LT">Lithuania</option><option value="LU">Luxembourg</option><option value="MK">Macedonia</option><option value="MG">Madagascar</option><option value="MW">Malawi</option><option value="MY">Malaysia</option><option value="ML">Mali</option><option value="MR">Mauritania</option><option value="MX">Mexico</option><option value="MD">Moldova</option><option value="MN">Mongolia</option><option value="ME">Montenegro</option><option value="MA">Morocco</option><option value="MZ">Mozambique</option><option value="MM">Myanmar</option><option value="-99">N. Cyprus</option><option value="NA">Namibia</option><option value="NP">Nepal</option><option value="NL">Netherlands</option><option value="NC">New Caledonia</option><option value="NZ">New Zealand</option><option value="NI">Nicaragua</option><option value="NE">Niger</option><option value="NG">Nigeria</option><option value="NO">Norway</option><option value="OM">Oman</option><option value="PK">Pakistan</option><option value="PS">Palestine</option><option value="PA">Panama</option><option value="PG">Papua New Guinea</option><option value="PY">Paraguay</option><option value="PE">Peru</option><option value="PH">Philippines</option><option value="PL">Poland</option><option value="PT">Portugal</option><option value="PR">Puerto Rico</option><option value="QA">Qatar</option><option value="RO">Romania</option><option value="RU">Russia</option><option value="RW">Rwanda</option><option value="SS">S. Sudan</option><option value="SA">Saudi Arabia</option><option value="SN">Senegal</option><option value="RS">Serbia</option><option value="SL">Sierra Leone</option><option value="SK">Slovakia</option><option value="SI">Slovenia</option><option value="SB">Solomon Is.</option><option value="SO">Somalia</option><option value="-99">Somaliland</option><option value="ZA">South Africa</option><option value="ES">Spain</option><option value="LK">Sri Lanka</option><option value="SD">Sudan</option><option value="SR">Suriname</option><option value="SZ">Swaziland</option><option value="SE">Sweden</option><option value="CH">Switzerland</option><option value="SY">Syria</option><option value="TW">Taiwan</option><option value="TJ">Tajikistan</option><option value="TZ">Tanzania</option><option value="TH">Thailand</option><option value="TL">Timor-Leste</option><option value="TG">Togo</option><option value="TT">Trinidad and Tobago</option><option value="TN">Tunisia</option><option value="TR">Turkey</option><option value="TM">Turkmenistan</option><option value="UG">Uganda</option><option value="UA">Ukraine</option><option value="AE">United Arab Emirates</option><option value="GB">United Kingdom</option><option value="US">United States</option><option value="UY">Uruguay</option><option value="UZ">Uzbekistan</option><option value="VU">Vanuatu</option><option value="VE">Venezuela</option><option value="VN">Vietnam</option><option value="EH">W. Sahara</option><option value="YE">Yemen</option><option value="ZM">Zambia</option><option value="ZW">Zimbabwe</option></select>
+        </form>
+    </div>
+    <!-- //Modals  -->
+ <!-- Modal info -->
+<div
+ class="modal fade text-center"
+ id="infoModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="infoModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="infoModalLabel"></h5>
+       <img class="flag" src="" alt="flag" />
+     </div>
+     <div class="modal-body">
+      <div class="table-responsive">
+        <table class="table table-borderless table-striped">
+          <tr>
+            <td class="text-start fw-bold">Continent</td>
+            <td id="continent" class="text-end"></td>
+          </tr>
+          <tr>
+            <td class="text-start fw-bold">Capital</td>
+            <td id="capital" class="text-end"></td>
+          </tr>
+          <tr>
+            <td class="text-start fw-bold">Area</td>
+            <td id="area" class="text-end"></td>
+          </tr>
+          <tr>
+            <td class="text-start fw-bold">Population</td>
+            <td id="population" class="text-end"></td>
+          </tr>
+          <tr>
+            <td class="text-start fw-bold">Language(s)</td>
+            <td id="languages" class="text-end"></td>
+          </tr>
+        </table>
+      </div>
+       
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-bs-dismiss="modal"
+       >
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- Modal currency -->
+<div
+ class="modal fade text-center"
+ id="currencyModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="currencyModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="currencyModalLabel"></h5>
+       <img class="flag" src="" alt="flag" />
+     </div>
+     <div class="modal-body">
+       <table class="table table-borderless table-striped">
+         <tr>
+           <td class="text-start fw-bold">Currency</td>
+           <td id="currency" class="text-end"></td>
+         </tr>
+         <tr>
+           <td class="text-start fw-bold">Symbol</td>
+           <td id="symbol" class="text-end"></td>
+         </tr>
+         <tr>
+           <td class="text-start fw-bold">Code</td>
+           <td id="code" class="text-end"></td>
+         </tr>
+         <tr>
+           <td class="text-start fw-bold">Exchange rate</td>
+           <td id="rate" class="text-end"></td>
+         </tr>
+       </table>
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-bs-dismiss="modal"
+       >
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- Modal weather -->
+<div
+  id="weatherModal"
+  class="modal fade"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="weatherModalLabel"
+  aria-hidden="true"
+  >
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="weatherModalLabel"></h5>
+     </div>
+     <div class="modal-body">
+       <div class="row">
+         <div class="col border m-2">
+           <p class="fw-bold fs-5 mt-3">Today</p>
+           <div class="row">
+             <div class="col text-center m-2">
+               <p id="todayConditions" class="fw-bold fs-6"></p>
+             </div>
+             <div class="col text-center">
+               <img
+                 id="todayIcon"
+                 class="img-fluid mt-0"
+                 src=""
+                 alt=""
+                 title=""
+               />
+             </div>
+             <div class="col text-center">
+               <p class="fw-bold fs-4 mb-0">
+                 <span id="todayMaxTemp"></span><sup>o</sup
+                 ><span class="tempMetric">c</span>
+               </p>
+               <p class="fs-5 mt-0 text-secondary">
+                 <span id="todayMinTemp"></span><sup>o</sup
+                 ><span class="tempMetric">c</span>
+               </p>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="row">
+         <div class="col border m-2">
+           <div class="row">
+             <div class="col text-center">
+               <p id="day1Date" class="fw-bold fs-6 mt-3"></p>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col text-center">
+               <p class="fw-bold fs-4 mb-0">
+                 <span id="day1MaxTemp"></span><sup>o</sup>c
+               </p>
+               <p class="fs-5 mt-0 text-secondary">
+                 <span id="day1MinTemp"></span><sup>o</sup>c
+               </p>
+             </div>
+             <div class="col text-center">
+               <img id="day1Icon" src="" alt="" title="" />
+             </div>
+           </div>
+         </div>
+         <div class="col border m-2">
+           <div class="row">
+             <div class="col text-center">
+               <p id="day2Date" class="fw-bold fs-6 mt-3">Fri 16th</p>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col text-center">
+               <p class="fw-bold fs-4 mb-0">
+                 <span id="day2MaxTemp"></span><sup>o</sup>c
+               </p>
+               <p class="fs-5 mt-0 text-secondary">
+                 <span id="day2MinTemp"></span><sup>o</sup>c
+               </p>
+             </div>
+             <div class="col text-center">
+               <img id="day2Icon" src="" alt="" title="" />
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-bs-dismiss="modal"
+       >
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+
+
+<!-- Modal holiday -->
+<div
+ class="modal fade text-center"
+ id="holidayModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="holidayModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="holidayModalLabel"></h5>
+       <img class="flag" src="" alt="flag" />
+     </div>
+     <div class="modal-body">
+       <table class="table table-borderless table-striped">
+         <tr>
+           <td id="name" class="text-start fw-bold"></td>
+           <td id="date" class="text-end"></td>
+         </tr>
+         <tr>
+           <td id="name1" class="text-start fw-bold"></td>
+           <td id="date1" class="text-end"></td>
+         </tr>
+         <tr>
+           <td id="name2" class="text-start fw-bold"></td>
+           <td id="date2" class="text-end"></td>
+         </tr>
+         <tr>
+           <td id="name3" class="text-start fw-bold"></td>
+           <td id="date3" class="text-end"></td>
+         </tr>
+         <tr>
+           <td id="name4" class="text-start fw-bold"></td>
+           <td id="date4" class="text-end"></td>
+         </tr>
+         <tr>
+           <td id="name5" class="text-start fw-bold"></td>
+           <td id="date5" class="text-end"></td>
+         </tr>
+       </table>
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-bs-dismiss="modal"
+       >
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+<!-- Modal wiki -->
+<div
+ class="modal fade text-center"
+ id="wikiModal"
+ tabindex="-1"
+ role="dialog"
+ aria-labelledby="wikiModalLabel"
+ aria-hidden="true"
+>
+ <div class="modal-dialog" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="wikiModalLabel"></h5>
+       <img class="flag" src="" alt="flag" />
+     </div>
+     <div class="modal-body">
+      <div class="table-responsive">
+
+        <table class="table table-borderless table-striped text-start">
+          <tr>
+            <td>
+              <img id="img1" src="" />
+              <div id="wiki1"></div>
+              <a href="" id="article1" target="_blank">Continue reading</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img id="img2" src="" />
+              <div id="wiki2"></div>
+              <a href="" id="article2" target="_blank">Continue reading</a>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <img id="img3" src="" />
+              <div id="wiki3"></div>
+              <a href="" id="article3" target="_blank">Continue reading</a>
+            </td>
+          </tr>
+          
+        </table>
+       </div>
+
+     </div>
+     <div class="modal-footer">
+       <button
+         type="button"
+         class="btn btn-secondary"
+         data-bs-dismiss="modal"
+       >
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+</div>
+
+    <!-- //Scripts -->
+    <script src="assets/js/jquery-3.6.2.min.js"></script>
+    <script src="assets/bootstrap/bootstrap.bundle.min.js"></script>
+    <script src="assets/leaflet/leaflet.js"></script>
+    <script src="assets/leaflet-easybutton/src/easy-button.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
