@@ -1,11 +1,12 @@
 <?php
 
 $country =  $_GET['country'];
+$countryCode =  $_GET['countryCode'];
 
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
-  CURLOPT_URL => "http://api.geonames.org/wikipediaSearchJSON?q=".$country."&maxRows=3&username=brackets",
+  CURLOPT_URL => "http://api.geonames.org/wikipediaSearchJSON?q=".$country."&countryCode=".$countryCode."&maxRows=3&username=brackets",
   CURLOPT_RETURNTRANSFER => true,
   CURLOPT_ENCODING => "",
   CURLOPT_MAXREDIRS => 10,

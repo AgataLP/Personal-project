@@ -75,3 +75,7 @@ html, body, #map {
   pointer-events: auto;
 }
 
+.modal-body{
+  max-height: 380px;
+  overflow-y: auto;
+}

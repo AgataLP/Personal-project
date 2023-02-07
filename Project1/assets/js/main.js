@@ -43,16 +43,14 @@ $(document).ready(function () {
     type: "POST",
     dataType: "json",
     success: function (result) {
-      //   for (var i = 0; i < result.length; i++) {
-      //     $("#selCountry").append(
-      //       $("<option>", {
-      //         // value: result.data.border.features[i].properties.iso_a2,
-      //         // text: result.data.border.features[i].properties.name,
-      //         value: result[i][1],
-      //         text:  result[i][0],
-      //       })
-      //     );
-      // }
+        for (var i = 0; i < result.features.length; i++) {
+          $("#selCountry").append(
+            $("<option>", {
+              value: result.features[i].properties.iso_a2,
+              text: result.features[i].properties.name,
+            })
+          );
+      }
       $("#selCountry").html(
         $("#selCountry option").sort(function (a, b) {
           return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
@@ -86,7 +84,8 @@ $(document).ready(function () {
   };
 
   const errorCallback = (error) => {
-    console.error(error);
+    console.log("error");
+    $("#selCountry").val("AF").change();
   };
   navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
 });
@@ -94,7 +93,7 @@ $(document).ready(function () {
 // on change, border, api modals and markers
 $("#selCountry").change(function () {
   clearMap();
-
+  //Get Border Geocodes To show border
   $.ajax({
     type: "GET",
     url: "php/border.php",
@@ -114,12 +113,12 @@ $("#selCountry").change(function () {
       console.log(jqXHR, textStatus, errorThrown);
     },
   });
-
+  //Get Country Basic data/information
   $.ajax({
     url: "php/restCountries.php",
     type: "GET",
     dataType: "json",
-    data: { country: $("#selCountry").val() },
+    data: { country: encodeURI($("#selCountry option:selected").text()) },
     success: function (results) {
       if(results[0]){
        
@@ -190,7 +189,7 @@ $("#selCountry").change(function () {
 
     },
   });
-
+  //Get Currency of Country
   $.ajax({
     url: "php/currency.php",
     type: "GET",
@@ -208,8 +207,7 @@ $("#selCountry").change(function () {
     },
   });
 
-
-
+  //Get Holidays of Country
   $.ajax({
     url: "php/holiday.php",
     type: "GET",
@@ -250,12 +248,14 @@ $("#selCountry").change(function () {
     },
   });
  let country = $("#selCountry").val();
+ //Get Wikipedia of Country
   $.ajax({
     url: "php/wiki.php",
     type: "GET",
     dataType: "JSON",
     data: {
       country: encodeURI($("#selCountry option:selected").text()),
+      countryCode: encodeURI($("#selCountry option:selected").val()),
     },
     success: function (result) {
       if ( result.geonames[0]) {
@@ -279,218 +279,167 @@ $("#selCountry").change(function () {
   });
 
   //markers
-  // groupMarkers = L.markerClusterGroup();
-  // $.ajax({
-  //   url: "php/mAirport.php",
-  //   type: "POST",
-  //   dataType: "JSON",
-  //   data: { country: $("#selCountry").val() },
+  groupMarkers = L.markerClusterGroup();
+  // Get Airports Data
+  $.ajax({
+    url: "php/airport.php",
+    type: "GET",
+    dataType: "JSON",
+    data: { country: encodeURI($("#selCountry option:selected").text()) },
 
-  //   success: function (results) {
-  //     console.log("mAirport", results);
-  //     let airports = [];
-  //     let airportsMap = [];
-  //     let airportM = L.ExtraMarkers.icon({
-  //       icon: "fa-plane",
-  //       markerColor: "blue",
-  //       shape: "circle",
-  //       prefix: "fa",
-  //     });
-  //     let data = results["data"]["geonames"];
-  //     let leght = data.length;
-  //     for (let i = 0; i < leght; i++) {
-  //       let lat = data[i]["lat"];
-  //       let long = data[i]["lng"];
-  //       let name = data[i]["name"];
-  //       airports.push([name, lat, long]);
-  //     }
-  //     for (let i = 0; i < airports.length; i++) {
-  //       airportsMap = L.marker(new L.LatLng(airports[i][1], airports[i][2]), {
-  //         icon: airportM,
-  //       }).bindPopup(airports[i][0]);
-  //       groupMarkers.addLayer(airportsMap);
-  //     }
-  //     map.addLayer(groupMarkers);
-  //   },
+    success: function (results) {
+      console.log("airports", results);
+      let airports = [];
+      let airportsMap = [];
+      let airportM = L.ExtraMarkers.icon({
+        icon: "fa-plane",
+        markerColor: "blue",
+        shape: "circle",
+        prefix: "fa",
+      });
+      let data = results["geonames"];
+      let leght = data.length;
+      for (let i = 0; i < leght; i++) {
+        let lat = data[i]["lat"];
+        let long = data[i]["lng"];
+        let name = data[i]["name"];
+        airports.push([name, lat, long]);
+      }
+      for (let i = 0; i < airports.length; i++) {
+        airportsMap = L.marker(new L.LatLng(airports[i][1], airports[i][2]), {
+          icon: airportM,
+        }).bindPopup(airports[i][0]);
+        groupMarkers.addLayer(airportsMap);
+      }
+      map.addLayer(groupMarkers);
+    },
 
-  //   error: function (jqXHR, textStatus, errorThrown) {
-  //     console.log(jqXHR, textStatus, errorThrown);
-  //   },
-  // });
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR, textStatus, errorThrown);
+    },
+  });
+  // Get Banks Data
+  $.ajax({
+    url: "php/banks.php",
+    type: "GET",
+    dataType: "JSON",
+    data: { country:encodeURI($("#selCountry option:selected").text()) },
 
-  // $.ajax({
-  //   url: "php/mBank.php",
-  //   type: "POST",
-  //   dataType: "JSON",
-  //   data: { country: $("#selCountry").val() },
+    success: function (results) {
+      console.log("banks", results);
+      let banks = [];
+      let banksMap = [];
+      let bankM = L.ExtraMarkers.icon({
+        icon: "fa-university",
+        markerColor: "green",
+        shape: "star",
+        prefix: "fa",
+      });
+      let data = results["geonames"];
+      let leght = data.length;
+      for (let i = 0; i < leght; i++) {
+        let lat = data[i]["lat"];
+        let long = data[i]["lng"];
+        let name = data[i]["name"];
+        banks.push([name, lat, long]);
+      }
+      for (let i = 0; i < banks.length; i++) {
+        banksMap = L.marker(new L.LatLng(banks[i][1], banks[i][2]), {
+          icon: bankM,
+        }).bindPopup(banks[i][0]);
+        groupMarkers.addLayer(banksMap);
+      }
+      map.addLayer(groupMarkers);
+    },
 
-  //   success: function (results) {
-  //     console.log("mBank", results);
-  //     let banks = [];
-  //     let banksMap = [];
-  //     let bankM = L.ExtraMarkers.icon({
-  //       icon: "fa-university",
-  //       markerColor: "green",
-  //       shape: "star",
-  //       prefix: "fa",
-  //     });
-  //     let data = results["data"]["geonames"];
-  //     let leght = data.length;
-  //     for (let i = 0; i < leght; i++) {
-  //       let lat = data[i]["lat"];
-  //       let long = data[i]["lng"];
-  //       let name = data[i]["name"];
-  //       banks.push([name, lat, long]);
-  //     }
-  //     for (let i = 0; i < banks.length; i++) {
-  //       banksMap = L.marker(new L.LatLng(banks[i][1], banks[i][2]), {
-  //         icon: bankM,
-  //       }).bindPopup(banks[i][0]);
-  //       groupMarkers.addLayer(banksMap);
-  //     }
-  //     map.addLayer(groupMarkers);
-  //   },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR, textStatus, errorThrown);
+    },
+  });
+  // Get Hospitals Data
+  $.ajax({
+    url: "php/hospitals.php",
+    type: "GET",
+    dataType: "JSON",
+    data: { country: encodeURI($("#selCountry option:selected").text()) },
 
-  //   error: function (jqXHR, textStatus, errorThrown) {
-  //     console.log(jqXHR, textStatus, errorThrown);
-  //   },
-  // });
+    success: function (results) {
+      console.log("hospital", results);
+      let hospitals = [];
+      let hospitalsMap = [];
+      let hospitalM = L.ExtraMarkers.icon({
+        icon: "fa-h-square",
+        markerColor: "red",
+        shape: "square",
+        prefix: "fa",
+      });
+      let data = results["geonames"];
+      let leght = data.length;
+      for (let i = 0; i < leght; i++) {
+        let lat = data[i]["lat"];
+        let long = data[i]["lng"];
+        let name = data[i]["name"];
+        hospitals.push([name, lat, long]);
+      }
+      for (let i = 0; i < hospitals.length; i++) {
+        hospitalsMap = L.marker(
+          new L.LatLng(hospitals[i][1], hospitals[i][2]),
+          {
+            icon: hospitalM,
+          }
+        ).bindPopup(hospitals[i][0]);
+        groupMarkers.addLayer(hospitalsMap);
+      }
+      map.addLayer(groupMarkers);
+    },
 
-  // $.ajax({
-  //   url: "php/mChurch.php",
-  //   type: "POST",
-  //   dataType: "JSON",
-  //   data: { country: $("#selCountry").val() },
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR, textStatus, errorThrown);
+    },
+  });
+  // Get Schools Data
+  $.ajax({
+    url: "php/schools.php",
+    type: "GET",
+    dataType: "JSON",
+    data: { country: encodeURI($("#selCountry option:selected").text()) },
 
-  //   success: function (results) {
-  //     console.log("mChurch", results);
-  //     let churches = [];
-  //     let churchesMap = [];
-  //     let churchM = L.ExtraMarkers.icon({
-  //       icon: "fa-plus",
-  //       markerColor: "black",
-  //       shape: "square",
-  //       prefix: "fa",
-  //     });
-  //     let data = results["data"]["geonames"];
-  //     let leght = data.length;
-  //     for (let i = 0; i < leght; i++) {
-  //       let lat = data[i]["lat"];
-  //       let long = data[i]["lng"];
-  //       let name = data[i]["name"];
-  //       churches.push([name, lat, long]);
-  //     }
-  //     for (let i = 0; i < churches.length; i++) {
-  //       churchesMap = L.marker(new L.LatLng(churches[i][1], churches[i][2]), {
-  //         icon: churchM,
-  //       }).bindPopup(churches[i][0]);
-  //       groupMarkers.addLayer(churchesMap);
-  //     }
-  //     map.addLayer(groupMarkers);
-  //   },
+    success: function (results) {
+      console.log("mSchool", results);
+      let schools = [];
+      let schoolsMap = [];
+      let schoolM = L.ExtraMarkers.icon({
+        icon: "fa-graduation-cap",
+        markerColor: "yellow",
+        shape: "penta",
+        prefix: "fa",
+      });
+      let data = results["geonames"];
+      let leght = data.length;
+      for (let i = 0; i < leght; i++) {
+        let lat = data[i]["lat"];
+        let long = data[i]["lng"];
+        let name = data[i]["name"];
+        schools.push([name, lat, long]);
+      }
+      for (let i = 0; i < schools.length; i++) {
+        schoolsMap = L.marker(new L.LatLng(schools[i][1], schools[i][2]), {
+          icon: schoolM,
+        }).bindPopup(schools[i][0]);
+        groupMarkers.addLayer(schoolsMap);
+      }
+      map.addLayer(groupMarkers);
+    },
 
-  //   error: function (jqXHR, textStatus, errorThrown) {
-  //     console.log(jqXHR, textStatus, errorThrown);
-  //   },
-  // });
-
-  // $.ajax({
-  //   url: "php/mHospital.php",
-  //   type: "POST",
-  //   dataType: "JSON",
-  //   data: { country: $("#selCountry").val() },
-
-  //   success: function (results) {
-  //     console.log("mHospital", results);
-  //     let hospitals = [];
-  //     let hospitalsMap = [];
-  //     let hospitalM = L.ExtraMarkers.icon({
-  //       icon: "fa-h-square",
-  //       markerColor: "red",
-  //       shape: "square",
-  //       prefix: "fa",
-  //     });
-  //     let data = results["data"]["geonames"];
-  //     let leght = data.length;
-  //     for (let i = 0; i < leght; i++) {
-  //       let lat = data[i]["lat"];
-  //       let long = data[i]["lng"];
-  //       let name = data[i]["name"];
-  //       hospitals.push([name, lat, long]);
-  //     }
-  //     for (let i = 0; i < hospitals.length; i++) {
-  //       hospitalsMap = L.marker(
-  //         new L.LatLng(hospitals[i][1], hospitals[i][2]),
-  //         {
-  //           icon: hospitalM,
-  //         }
-  //       ).bindPopup(hospitals[i][0]);
-  //       groupMarkers.addLayer(hospitalsMap);
-  //     }
-  //     map.addLayer(groupMarkers);
-  //   },
-
-  //   error: function (jqXHR, textStatus, errorThrown) {
-  //     console.log(jqXHR, textStatus, errorThrown);
-  //   },
-  // });
-
-  // $.ajax({
-  //   url: "php/mSchool.php",
-  //   type: "POST",
-  //   dataType: "JSON",
-  //   data: { country: $("#selCountry").val() },
-
-  //   success: function (results) {
-  //     console.log("mSchool", results);
-  //     let schools = [];
-  //     let schoolsMap = [];
-  //     let schoolM = L.ExtraMarkers.icon({
-  //       icon: "fa-graduation-cap",
-  //       markerColor: "yellow",
-  //       shape: "penta",
-  //       prefix: "fa",
-  //     });
-  //     let data = results["data"]["geonames"];
-  //     let leght = data.length;
-  //     for (let i = 0; i < leght; i++) {
-  //       let lat = data[i]["lat"];
-  //       let long = data[i]["lng"];
-  //       let name = data[i]["name"];
-  //       schools.push([name, lat, long]);
-  //     }
-  //     for (let i = 0; i < schools.length; i++) {
-  //       schoolsMap = L.marker(new L.LatLng(schools[i][1], schools[i][2]), {
-  //         icon: schoolM,
-  //       }).bindPopup(schools[i][0]);
-  //       groupMarkers.addLayer(schoolsMap);
-  //     }
-  //     map.addLayer(groupMarkers);
-  //   },
-
-  //   error: function (jqXHR, textStatus, errorThrown) {
-  //     console.log(jqXHR, textStatus, errorThrown);
-  //   },
-  // });
+    error: function (jqXHR, textStatus, errorThrown) {
+      console.log(jqXHR, textStatus, errorThrown);
+    },
+  });
 });
 
 // var select = L.countrySelect().addTo(map);
 
-// select.on('change', function(e){
-// 	if(e.feature === undefined){ 
-//     //No action when the first item ("Country") is selected
-// 		return;
-// 	}
-// 	var country = L.geoJson(e.feature);
-// 	if (this.previousCountry != null){
-// 		map.removeLayer(this.previousCountry);
-// 	}
-// 	this.previousCountry = country;
 
-// 	map.addLayer(country);
-// 	map.fitBounds(country.getBounds());
-	
-// });
 
 // easy button
 L.easyButton(

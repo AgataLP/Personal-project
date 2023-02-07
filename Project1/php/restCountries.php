@@ -9,7 +9,7 @@ $country = $_GET['country'];
 $ch = curl_init();
 
 // Set the URL
-curl_setopt($ch, CURLOPT_URL, 'https://restcountries.com/v3.1/name/' . urlencode($country));
+curl_setopt($ch, CURLOPT_URL, 'https://restcountries.com/v3.1/name/'.$country);
 
 // Set cURL options
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
