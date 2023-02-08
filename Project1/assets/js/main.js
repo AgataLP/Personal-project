@@ -43,11 +43,11 @@ $(document).ready(function () {
     type: "POST",
     dataType: "json",
     success: function (result) {
-        for (var i = 0; i < result.features.length; i++) {
+        for (var i = 0; i < result.length; i++) {
           $("#selCountry").append(
             $("<option>", {
-              value: result.features[i].properties.iso_a2,
-              text: result.features[i].properties.name,
+              value: result[i].iso,
+              text: result[i].name,
             })
           );
       }
@@ -405,7 +405,7 @@ $("#selCountry").change(function () {
     data: { country: encodeURI($("#selCountry option:selected").text()) },
 
     success: function (results) {
-      console.log("mSchool", results);
+      console.log("school", results);
       let schools = [];
       let schoolsMap = [];
       let schoolM = L.ExtraMarkers.icon({
