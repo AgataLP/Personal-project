@@ -102,7 +102,7 @@ $("#selCountry").change(function () {
     success: function (results) {
     
       border = L.geoJSON(results, {
-        color: "#000000",
+        color: "#0B84C4",
         weight: 1,
         opacity: 1,
       }).addTo(map);
