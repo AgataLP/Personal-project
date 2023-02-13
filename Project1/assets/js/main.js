@@ -56,6 +56,7 @@ $(document).ready(function () {
           return a.text == b.text ? 0 : a.text < b.text ? -1 : 1;
         })
       );
+      navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
     },
   });
 
