@@ -1,0 +1,106 @@
+.containerL {
+	height: 100%;
+	width: 100%;
+	display: flex;
+        justify-content: center;
+        align-items: center;
+	/* position: absolute; */
+	position: fixed;
+	z-index: 1100;
+
+	/* cursor: auto; */
+        background-color: #2a2a4b;
+}
+
+.loader {
+	display: flex;
+        justify-content: center;
+        align-items: center;
+
+}
+
+.dot-one {
+        background-color: white;
+        border-radius: 100%;
+        margin: 10px;
+        padding: 12px;
+}
+
+.dot-two{
+        background-color: white;
+        border-radius: 100%;
+        margin: 10px;
+        padding: 12px;
+}
+.dot-three{
+        background-color: white;
+        border-radius: 100%;
+        margin: 10px;
+        padding: 12px;
+}
+
+/*
+Following css for the loading animations comes from :
+https://connoratherton.com/loaders
+*/
+
+@-webkit-keyframes hideLoader {
+from {opacity: 1;}
+to {opacity: 0;}
+}
+@keyframes hideLoader {
+from {opacity: 1;}
+to {opacity: 0;}
+}
+
+
+@-webkit-keyframes scale {
+0% {
+-webkit-transform: scale(1);
+        transform: scale(1);
+opacity: 1; }
+
+45% {
+-webkit-transform: scale(0.1);
+        transform: scale(0.1);
+opacity: 0.7; }
+
+80% {
+-webkit-transform: scale(1);
+        transform: scale(1);
+opacity: 1; } }
+@keyframes scale {
+0% {
+-webkit-transform: scale(1);
+        transform: scale(1);
+opacity: 1; }
+
+45% {
+-webkit-transform: scale(0.1);
+        transform: scale(0.1);
+opacity: 0.7; }
+
+80% {
+-webkit-transform: scale(1);
+        transform: scale(1);
+opacity: 1; } }
+
+
+.loader > div.dot-one {
+  -webkit-animation: scale 0.90s -0.36s infinite ease-in-out;
+          animation: scale 0.90s -0.36s infinite ease-in-out;
+          
+}
+.loader > div.dot-two {
+  -webkit-animation: scale 0.90s -0.24s infinite ease-in-out;
+          animation: scale 0.90s -0.24s infinite ease-in-out;
+}
+.loader > div.dot-three {
+  -webkit-animation: scale 0.90s -0.12s infinite ease-in-out;
+          animation: scale 0.90s -0.12s infinite ease-in-out;
+}
+
+.stop-display{
+        background-color: blue;
+        display: none;
+}

@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="author" content="Luis Toro">
+  <meta name="description" content="AJAX/PHP/CURL/JSON">
+
+  <link rel="stylesheet" href="libs/css/preloaderX.css">
+  <!-- fontawesome -->
+  <link rel="stylesheet" href="libs/Font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="libs/bootstrap/Bcss/bootstrap.min.css">
+  <link rel="stylesheet" href="libs/css/styles.css">
+  
+  <!-- fontawesome
+  <link rel="stylesheet" href="libs/Font-awesome/css/all.min.css"> -->
+
+  <title>CompanyDirectory</title>
+
+</head>
+
+
+<body>
+  <!-- Preloader -->
+  <div id="preloader" class="containerL">
+    <div class="loader">
+      <div class="dot-one"></div>
+      <div class="dot-two"></div>
+      <div class="dot-three"></div>
+    </div>
+  </div>
+
+
+
+  <!-- NAV BAR -->
+  <nav class="navbar navbar-expand-sm sticky-top navbar-dark bg-dark">
+    <a class="navbar-brand" href="#" onclick="main()">
+      <i class="fas fa-atlas icon"></i>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav" id="navbar-L">
+        <a class="nav-link active" href="#" onclick="main()">Employees <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="#" onclick="departments()" >Departments</a>
+        <a class="nav-link" href="#" onclick="locations()" >Locations</a>
+      </div>
+      <!-- NEW EMPLOYEE BUTTON -->
+      <button id="X1" type="button" class="btn btn-success" data-toggle="modal" data-target="#newEmployee" title="New Employee">
+        <i class="fas fa-plus add"></i>
+        <!-- <i class="fas fa-plus-circle add"></i> -->
+      </button>
+      <!-- END NEW EMPLOYEE BUTTON -->
+    </div>
+  </nav>
+  <!-- END NAV BAR -->
+
+
+  
+
+  
+
+  <!-- Modal NEW EMPLOYEE-->
+  <div class="modal fade" id="newEmployee" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="newEmployeeLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newEmployeeLabel">New Employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body info">
+
+          <p class="submit-message"></p>
+
+          <form id="createEmployee" action="libs/php/createEmployee.php" method="POST">
+            <div class="col-md-12">
+              <label for="newFname" class="form-label">First name</label>
+              <input type="text" class="form-control" id="newFname" value="" >
+            </div><br>
+
+            <div class="col-md-12">
+              <label for="newLname" class="form-label">Last name</label>
+              <input type="text" class="form-control" id="newLname" value="" >
+            </div><br>
+            
+            <div class="col-md-12">
+              <label for="newEmail" class="form-label">E-mail</label>
+              <div class="input-group has-validation">
+                <input type="text" class="form-control" id="newEmail" aria-describedby="inputGroupPrepend" value="">
+              </div>
+            </div><br>
+            
+            <div class="col-md-12">
+              <label for="newJobTitle" class="form-label">Job title <span>(optional)</span></label>
+              <input type="text" class="form-control" id="newJobTitle" value="">
+            </div><br>
+            
+            <div class="col-md-12">
+              <label for="newDepartment" class="form-label">Department</label>
+              <select name="department" class="form-control" id="newDepartment"  >
+                <option class="BLUE"  value="" selected disabled place>Select Department</option>
+              </select>
+            </div><br><br>
+
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit" name="newSubmit" id="newSubmit">Save</button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END modal NEW EMPLOYEE -->
+
+
+
+  <!-- DEPARTMENT  -->
+  <!-- Modal NEW DEPARTMENT-->
+  <div class="modal fade" id="newDepartmentModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="newDepartmentLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newDepartmentLabel">New Department</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body info">
+
+          <p class="submit-message"></p>
+
+          <form id="createEmployee" action="libs/php/createDepartment.php" method="POST">
+            <div class="col-md-12">
+              <label for="newDepartmentName" class="form-label">Department</label>
+              <input type="text" class="form-control" id="newDepartmentName" value="" required>
+            </div><br>
+            
+            <div class="col-md-12">
+              <label for="newLocationOptions" class="form-label">Location</label>
+              <select name="location" class="form-control" id="newLocationOptions"  required>
+                <option class="BLUE"  value="" selected disabled place>Select Location</option>
+              </select>
+            </div><br><br>
+
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit" name="d-newSubmit" id="d-newSubmit">Save</button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END DEPARTMENT  -->
+
+
+  <!-- LOCATION -->
+  <!-- Modal NEW LOCATION-->
+  <div class="modal fade" id="newLocationModal" data-backdrop="static" data-keyboard="false" tabindex="-1" aria-labelledby="newLocationLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="newLocationLabel">New Location</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+
+        <div class="modal-body info">
+
+          <p class="submit-message"></p>
+
+          <form id="createLocation" action="libs/php/CREATELocation.php" method="POST">
+          <!-- <form id="createLocation"> -->
+
+            <div class="col-md-12">
+              <label for="newLocationName" class="form-label">Location</label>
+              <input type="text" class="form-control" id="newLocationName" value="" required>
+            </div><br>
+
+            <div class="col-12">
+              <button class="btn btn-primary" type="submit" name="l-newSubmit" id="l-newSubmit">Save</button>
+            </div>
+          </form>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- END LOCATION -->
+
+
+
+
+  <!-- EMPLOYEES TABLE -->
+  <div class="container-fluid" id="SAL">
+    <div class="col-xs-5">
+      <form class="d-flex" id="search-form">
+        <input class="form-control me-2" id="search-name-emp" value="" type="search" placeholder="Search" aria-label="Search">
+        <!-- <button class="btn btn-outline-success" type="submit">Search</button> -->
+      </form>
+      <div class="result">
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <th >First name</th>
+              <th >Last name</th>
+              <th class="d-none d-lg-table-cell">Email</th>
+              <th class="d-none d-lg-table-cell" style="width: 6em">Job title</th>
+              <th class="d-none d-lg-table-cell">Department</th>
+              <th colspan="2" style="text-align: center; padding-right: 1em;">Action</th>
+            </tr>
+          </thead>
+          <tbody class="table-data">
+            <tr>
+              <td></td>
+              <td></td>
+              <td class="d-none d-lg-table-cell"></td>
+              <td class="d-none d-lg-table-cell"></td>
+              <td class="d-none d-lg-table-cell"></td>
+              <td style="text-align: center;">
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#X${employee.id}" title="e-Info">
+                  <i class="fas fa-user-circle"></i>
+                </button>
+              </td>
+              <td style="text-align: center; padding-right: 1em;">
+                <button id="${employee.id}" type="button" class="btn btn-danger e-delete" data-toggle="modal" data-target="#modal-delete${employee.id}" title="e-Info">
+                <i class="fas fa-trash-alt"></i>
+                </button>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEPARTMENTS TABLE -->
+  <div class="container dep-table hidden" >
+    <div class="col-md-12">
+      <!-- <form class="d-flex" id="search-form-2">
+        <input class="form-control me-2" id="search-name-dep" value="" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form> -->
+      <div class="result">
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <!-- <th scope="col">ID</th> -->
+              <th scope="col">Department Name</th>
+              <th scope="col">Location</th>
+              <th colspan="2" style="text-align: center; padding-right: 1em;">Action</th>
+            </tr>
+          </thead>
+          <tbody class="table-data-2">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOCATIONS TABLE -->
+  <!-- <div class="container loc-table " > -->
+  <div class="container loc-table hidden" >
+    <div class="col-md-12">
+      
+      <div class="result">
+        <table class="table table-dark table-striped table-hover">
+          <thead>
+            <tr>
+              <!-- <th scope="col">ID</th> -->
+              <th colspan="2">Location</th>
+              <th colspan="2" style="text-align: center; padding-right: 1em;">Action</th>
+            </tr>
+          </thead>
+          <tbody class="table-data-3">
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  
+  
+
+  <div class="employee-modalX"></div>
+  
+  <!-- <div class="department-delete-modalX hidden"></div> -->
+  <div class="department-delete-modalX"></div>
+  <div class="department-edit-modalX hidden"></div>
+  
+  <div class="location-delete-modalX hidden"></div>
+  <div class="location-edit-modalX hidden"></div>
+  <!-- <div class="location-modalX"></div>
+  <div class="location-edit-modalX"></div> -->
+
+
+  <!-- Bootstrap - JQUERY -->
+  <script type="application/javascript" src="libs/js/jquery-3.6.0.min.js"></script>
+  <script src="libs/bootstrap/Bjs/bootstrap.bundle.min.js"></script>
+
+  <!-- fontawesome -->
+  <!-- <link rel="stylesheet" href="libs/Font-awesome/css/all.min.css"> -->
+
+  <script defer src="libs/js/script.js" type="application/javascript"></script>
+  <script defer src="libs/js/try.js" type="application/javascript"></script>
+  <script defer src="libs/js/departments.js" type="application/javascript"></script>
+  <script defer src="libs/js/locations.js" type="application/javascript"></script>
+
+</body>
+
+</html>

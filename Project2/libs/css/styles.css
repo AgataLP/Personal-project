@@ -1,0 +1,109 @@
+/* .imput-error{
+  color: blue;
+  background-color: red;
+  border: 5px;
+  border-color: blueviolet;
+} */
+
+.form-error{
+  color: white;
+  background-color: red;
+}
+
+.form-success {
+  background-color: green;
+  color: white;
+}
+
+.submit-message{
+  text-align: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.emp-del, .dep-del, .loc-del, .submitX-message {
+  /* color: white;
+  background-color: red; */
+  text-align: center;
+}
+
+/* .btn-danger {
+  padding-right: 1em !important;
+} */
+
+.nav-link.active {
+  color: white !important;
+  background-color: grey !important;
+  border-radius: 15px
+}
+
+#navbarNavAltMarkup {
+  justify-content: space-between;
+}
+
+.navbar-nav .nav-link {
+  padding-left: 15px !important;
+}
+
+.add{
+  font-size: 1.8em;
+  /* background-color: red; */
+}
+
+.margin-topX{
+  margin-top: 40px;
+
+}
+
+.icon {
+  font-size: 2em;
+}
+
+.result {
+  overflow-y: auto;
+  height: 85vh;
+}
+.result thead th {
+  position: sticky;
+  top: 0;
+}
+th {
+  background-color: rgb(100, 100, 100);
+  border: crimson !important;
+}
+
+
+@media only screen and (max-width: 431px) {
+  .container, .col-md-12 {
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  .table td, .table th {
+    font-size: .8em;
+    padding-left: 1em;
+    padding-right: 0em;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    /* padding: 1em 0; */
+  }
+  .table button {
+    /* font-size: .8em; */
+    /* padding-left: .05em; */
+    /* margin-left: 0.05em; */
+    font-size: .8em;
+  }
+  .result {
+    overflow-y: auto;
+    height: 80vh;
+  }
+  .fa-plus{
+    font-size: 1em;
+  }
+  .container, .container-fluid, .col-md-12 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+  }
+}
