@@ -1,7 +1,7 @@
 let currencyCode;
 let border;
 let groupMarkers;
-
+ 
 //add commas
 function commas(x) {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -24,9 +24,28 @@ var Esri_NatGeoWorldMap = L.tileLayer(
   {
     attribution:
       "Tiles &copy; OpenStreetMap",
-    maxZoom: 12,
+    maxZoom: 13,
   }
 ).addTo(map);
+var street_Var = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    
+}),
+sattelite_Var = L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
+    maxZoom: 20,
+    minZoom: 3,
+    id: 'mapbox/satellite-v9',
+    tileSize: 510,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoiaGFkaWRldiIsImEiOiJjbGU0aWlndnowMDdvM29tdnVweWN0cGhkIn0.yMaH5kEQdSX8eccNIeLQbA'
+});
+
+var baseMaps = {
+    "Street map": street_Var,
+    "Sattelite map": sattelite_Var
+};
+
+L.control.layers(baseMaps).addTo(map);
 
 function clearMap() {
   if (groupMarkers) {
@@ -61,7 +80,7 @@ $(document).ready(function () {
   });
 
   // user location
-  const successCallback = (position) => {
+  function successCallback(position) {
     $.ajax({
       url: "php/openCage.php",
       type: "GET",
@@ -82,7 +101,7 @@ $(document).ready(function () {
         console.log(jqXHR, textStatus, errorThrown);
       },
     });
-  };
+  }
 
   const errorCallback = (error) => {
     console.log("error");
@@ -167,18 +186,18 @@ $("#selCountry").change(function () {
             );
             $("#todayConditions").html(result[0]['day']['condition']['text']);
             $("#todayIcon").attr("src", result[0]['day']['condition']['icon']);
-            $("#todayMaxTemp").html(result[0]['day']['maxtemp_c']);
-            $("#todayMinTemp").html(result[0]['day']['mintemp_c']);
+            $("#todayMaxTemp").html(Math.round(result[0]['day']['maxtemp_c']));
+            $("#todayMinTemp").html(Math.round(result[0]['day']['mintemp_c']));
             $("#day1Date").text(result[1].date);
 
             $("#day1Icon").attr("src", result[1]['day']['condition']['icon']);
-            $("#day1MinTemp").html(result[1]['day']['maxtemp_c']);
-            $("#day1MaxTemp").html(result[1]['day']['mintemp_c']);
+            $("#day1MinTemp").html(Math.round(result[1]['day']['maxtemp_c']));
+            $("#day1MaxTemp").html(Math.round(result[1]['day']['mintemp_c']));
    
             $("#day2Date").text(result[2].date);
             $("#day2Icon").attr("src", result[2]['day']['condition']['icon']);
-            $("#day2MinTemp").html(result[2]['day']['maxtemp_c']);
-            $("#day2MaxTemp").html(result[2]['day']['mintemp_c']);
+            $("#day2MinTemp").html(Math.round(result[2]['day']['maxtemp_c']));
+            $("#day2MaxTemp").html(Math.round(result[2]['day']['mintemp_c']));
           }
         },
         error: function (jqXHR, textStatus, errorThrown) {
@@ -217,29 +236,33 @@ $("#selCountry").change(function () {
     success: function (results) {
       let data = results;
       if(data.holidays){
+        
+        
         $("#name").html(data.holidays[0].name);
         $("#date").html(
-           data.holidays[0].date
+          formatDate(data.holidays[0].date)
+         
         );
+
         $("#name1").html(data.holidays[1].name);
         $("#date1").html(
-           data.holidays[1].date
+          formatDate(data.holidays[1].date)
         );
         $("#name2").html(data.holidays[2].name);
         $("#date2").html(
-           data.holidays[2].date
+          formatDate(data.holidays[2].date)
         );
         $("#name3").html(data.holidays[3].name);
         $("#date3").html(
-           data.holidays[3].date
+          formatDate(data.holidays[3].date)
         );
         $("#name4").html(data.holidays[4].name);
         $("#date4").html(
-           data.holidays[4].date
+          formatDate(data.holidays[4].date)
         );
         $("#name5").html(data.holidays[5].name);
         $("#date5").html(
-           data.holidays[5].date
+          formatDate(data.holidays[5].date)
         );
       }
      
@@ -248,6 +271,13 @@ $("#selCountry").change(function () {
       console.log(jqXHR, textStatus, errorThrown);
     },
   });
+  function formatDate(datevar) {
+    const date = new Date(datevar);
+    const options = { weekday: 'short', day: 'numeric' };
+    const formattedDate = date.toLocaleString('en-US', options);
+    return formattedDate;
+  }
+  
  let country = $("#selCountry").val();
  //Get Wikipedia of Country
   $.ajax({
